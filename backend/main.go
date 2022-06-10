@@ -13,11 +13,11 @@ import (
 	"github.com/gofiber/swagger"
 )
 
-// @title                       SMS API
+// @title                       SISTEM TERDISTRIBUSI API
 // @version                     1.0
-// @description                 sms api is api for store management system web app by ToqCer.id.
-// @contact.name                Toqcer
-// @contact.email               Toqcer.gmail.com
+// @description                 SISTEM TERDISTRIBUSI API BACKEND.
+// @contact.name                uloydev
+// @contact.email               uloydev.gmail.com
 // @securityDefinitions.apikey  ApiKeyAuth
 // @in                          header
 // @name                        Authorization

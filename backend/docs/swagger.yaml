@@ -97,10 +97,10 @@ definitions:
     type: object
 info:
   contact:
-    email: Toqcer.gmail.com
-    name: Toqcer
-  description: sms api is api for store management system web app by ToqCer.id.
-  title: SMS API
+    email: uloydev.gmail.com
+    name: uloydev
+  description: SISTEM TERDISTRIBUSI API BACKEND.
+  title: SISTEM TERDISTRIBUSI API
   version: "1.0"
 paths:
   /v1/admin:

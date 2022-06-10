@@ -1,11 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "sms api is api for store management system web app by ToqCer.id.",
-        "title": "SMS API",
+        "description": "SISTEM TERDISTRIBUSI API BACKEND.",
+        "title": "SISTEM TERDISTRIBUSI API",
         "contact": {
-            "name": "Toqcer",
-            "email": "Toqcer.gmail.com"
+            "name": "uloydev",
+            "email": "uloydev.gmail.com"
         },
         "version": "1.0"
     },

@@ -11,8 +11,8 @@ const docTemplate = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "name": "Toqcer",
-            "email": "Toqcer.gmail.com"
+            "name": "uloydev",
+            "email": "uloydev.gmail.com"
         },
         "version": "{{.Version}}"
     },
@@ -749,8 +749,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "SMS API",
-	Description:      "sms api is api for store management system web app by ToqCer.id.",
+	Title:            "SISTEM TERDISTRIBUSI API",
+	Description:      "SISTEM TERDISTRIBUSI API BACKEND.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }
