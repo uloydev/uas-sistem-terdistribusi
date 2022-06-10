@@ -1,0 +1,420 @@
+definitions:
+  model.AdminRequest:
+    properties:
+      email:
+        example: admin@toqcer.id
+        type: string
+      name:
+        example: admin
+        type: string
+      password:
+        example: strongpassword
+        type: string
+    type: object
+  model.AdminResponse:
+    properties:
+      created_at:
+        type: integer
+      deleted_at:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  model.AuthRequest:
+    properties:
+      email:
+        example: user@toqcer.id
+        type: string
+      password:
+        example: strongpassword
+        type: string
+    type: object
+  model.AuthResponse:
+    properties:
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+    type: object
+  model.ResetPasswordRequest:
+    properties:
+      email:
+        example: user@toqcer.id
+        type: string
+    type: object
+  model.UserRequest:
+    properties:
+      birthday:
+        type: integer
+      email:
+        example: user@toqcer.id
+        type: string
+      name:
+        example: toqcer
+        type: string
+      password:
+        example: strongpassword
+        type: string
+      phone:
+        example: "08512132332"
+        type: string
+    type: object
+  model.UserResponse:
+    properties:
+      birthday:
+        type: integer
+      created_at:
+        type: integer
+      deleted_at:
+        type: integer
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  model.WebResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        type: any
+      status:
+        type: string
+    type: object
+info:
+  contact:
+    email: Toqcer.gmail.com
+    name: Toqcer
+  description: sms api is api for store management system web app by ToqCer.id.
+  title: SMS API
+  version: "1.0"
+paths:
+  /v1/admin:
+    get:
+      consumes:
+      - application/json
+      description: get all Admin data from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.AdminResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Admin
+      tags:
+      - admin
+    post:
+      consumes:
+      - application/json
+      description: Create New Admin / Register Admin
+      parameters:
+      - description: Register Admin
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/model.AdminRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.AdminResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Create Admin
+      tags:
+      - admin
+  /v1/admin/auth:
+    post:
+      consumes:
+      - application/json
+      description: authenticate admin / login admin
+      parameters:
+      - description: Auth admin
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/model.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.AuthResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Auth Admin
+      tags:
+      - admin
+  /v1/user:
+    get:
+      consumes:
+      - application/json
+      description: get all user data from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.UserResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get All User
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: Create New User / Register User
+      parameters:
+      - description: Register user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Create User
+      tags:
+      - user
+  /v1/user/auth:
+    post:
+      consumes:
+      - application/json
+      description: authenticate user / login User
+      parameters:
+      - description: Auth user
+        in: body
+        name: auth
+        required: true
+        schema:
+          $ref: '#/definitions/model.AuthRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.AuthResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Auth User
+      tags:
+      - user
+  /v1/user/reset-password:
+    post:
+      consumes:
+      - application/json
+      description: request reset password user
+      parameters:
+      - description: Request Reset Password User
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Request Reset Password User
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
