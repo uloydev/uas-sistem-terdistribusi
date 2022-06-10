@@ -8,11 +8,12 @@ import (
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 )
 
-func ValidateAdmin(request model.AdminRequest) {
+func ValidateProduct(request model.ProductRequest) {
 	err := validation.ValidateStruct(&request,
-		validation.Field(&request.Name, validation.Required),
-		validation.Field(&request.Email, validation.Required, is.Email),
-		validation.Field(&request.Password, validation.Required),
+		validation.Field(&request.Title, validation.Required),
+		validation.Field(&request.Price, validation.Required, is.Digit),
+		validation.Field(&request.Description, validation.Required),
+		validation.Field(&request.Stock, validation.Required, is.Digit),
 	)
 
 	if err != nil {
