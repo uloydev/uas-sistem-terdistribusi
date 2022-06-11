@@ -86,7 +86,7 @@ func (service *LicenseService) Delete(ID uint) (responses string) {
 	return "License with id " + strconv.Itoa(int(ID)) + " deleted."
 }
 
-func (service *LicenseService) UpdateById(marketplace_id uint, request model.LicenseRequest) (response model.LicenseResponse) {
+func (service *LicenseService) UpdateById(ID uint, request model.LicenseRequest) (response model.LicenseResponse) {
 	validation.ValidateLicense(request)
 
 	license := entity.License{
@@ -95,7 +95,7 @@ func (service *LicenseService) UpdateById(marketplace_id uint, request model.Lic
 		IsActive: request.IsActive,
 	}
 
-	license = service.Repo.UpdateById(license)
+	license = service.Repo.UpdateById(ID, license)
 
 	response = model.LicenseResponse{
 		BasicData: model.BasicData{
