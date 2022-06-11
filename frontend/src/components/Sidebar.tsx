@@ -1,6 +1,10 @@
 import React, { FC } from 'react'
-import SidebarLink from './SidebarLink'
 import { BiTable, BiPencil } from 'react-icons/bi'
+import { TbLicense } from 'react-icons/tb'
+import { MdOutlineCreateNewFolder } from 'react-icons/md'
+import { CgEditMarkup } from 'react-icons/cg'
+
+import SidebarLink from './SidebarLink'
 
 interface SidebarProps {
     open: boolean
@@ -16,7 +20,11 @@ const Sidebar: FC<SidebarProps> = ({ open }) => {
             </div>
             <ul>
                 <SidebarLink Icon={BiTable} href="/">Product Catalog</SidebarLink>
-                <SidebarLink Icon={BiPencil} href="/">Product Edit</SidebarLink>
+                <SidebarLink Icon={BiPencil} href="/product/create">Product Create</SidebarLink>
+                <SidebarLink Icon={BiPencil} href="/product/edit">Product Edit</SidebarLink>
+                <SidebarLink Icon={TbLicense} href="/product/edit">List License</SidebarLink>
+                <SidebarLink Icon={MdOutlineCreateNewFolder} href="/license/create">Create License</SidebarLink>
+                <SidebarLink Icon={CgEditMarkup} href="/product/edit">Edit License</SidebarLink>
             </ul>
         </aside>
     )

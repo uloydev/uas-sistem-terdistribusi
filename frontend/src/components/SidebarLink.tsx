@@ -11,12 +11,12 @@ interface SidebarLinkProps {
 
 const SidebarLink: React.FC<SidebarLinkProps> = ({ Icon, href, children, className }) => {
     return (
-        <li className='cursor-pointer p-5 hover:brightness-110 bg-primary flex items-center gap-x-4 text-slate-300'>
-            {Icon && <Icon />}
-            <Link href={href}>
+        <Link href={href}>
+            <li className='cursor-pointer p-5 hover:brightness-110 bg-primary flex items-center gap-x-4 text-slate-300'>
+                {Icon && <Icon size={20} />}
                 <span className={`${className} `}>{children}</span>
-            </Link>
-        </li>
+            </li>
+        </Link>
     )
 }
 
