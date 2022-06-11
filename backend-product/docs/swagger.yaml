@@ -57,6 +57,13 @@ paths:
       consumes:
       - application/json
       description: get all Product data from database
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: username
+        type: string
       produces:
       - application/json
       responses:
@@ -89,11 +96,9 @@ paths:
                 data:
                   type: string
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: Get All Product
       tags:
-      - product
+      - Product
     post:
       consumes:
       - application/json
@@ -105,6 +110,12 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/model.ProductRequest'
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: username
+        type: string
       produces:
       - application/json
       responses:
@@ -137,7 +148,7 @@ paths:
               type: object
       summary: Create Product
       tags:
-      - product
+      - Product
   /v1/product/{id}:
     delete:
       consumes:
@@ -148,6 +159,12 @@ paths:
         in: path
         name: id
         type: integer
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: username
+        type: string
       produces:
       - application/json
       responses:
@@ -180,7 +197,7 @@ paths:
               type: object
       summary: Delete Product
       tags:
-      - product
+      - Product
     put:
       consumes:
       - application/json
@@ -196,6 +213,12 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/model.ProductRequest'
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: username
+        type: string
       produces:
       - application/json
       responses:
@@ -226,8 +249,6 @@ paths:
                 data:
                   type: string
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: Update Product
       tags:
       - Product

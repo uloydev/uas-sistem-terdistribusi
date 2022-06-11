@@ -12,11 +12,6 @@
     "paths": {
         "/v1/product": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "get all Product data from database",
                 "consumes": [
                     "application/json"
@@ -25,9 +20,21 @@
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "Product"
                 ],
                 "summary": "Get All Product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -97,7 +104,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "Product"
                 ],
                 "summary": "Create Product",
                 "parameters": [
@@ -109,6 +116,16 @@
                         "schema": {
                             "$ref": "#/definitions/model.ProductRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -171,11 +188,6 @@
         },
         "/v1/product/{id}": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Update Product",
                 "consumes": [
                     "application/json"
@@ -202,6 +214,16 @@
                         "schema": {
                             "$ref": "#/definitions/model.ProductRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -270,7 +292,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "Product"
                 ],
                 "summary": "Delete Product",
                 "parameters": [
@@ -279,6 +301,16 @@
                         "description": "int valid",
                         "name": "id",
                         "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
                     }
                 ],
                 "responses": {

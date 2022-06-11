@@ -9,7 +9,6 @@ import (
 	_ "sister-backend/docs"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 )
 
@@ -29,7 +28,7 @@ func main() {
 	mailConn := utils.NewMailConnection(mailConf)
 
 	app := fiber.New(config.NewFiberConfig())
-	app.Use(recover.New())
+	// app.Use(recover.New())
 
 	v1 := app.Group("/v1")
 
@@ -43,5 +42,5 @@ func main() {
 		DocExpansion: "none",
 	}))
 
-	app.Listen(":6991")
+	app.Listen(":8691")
 }
