@@ -6,4 +6,5 @@ import (
 
 var InitFunctions = []InitFunc{
 	controller.InitializeLiceseController,
+	controller.InitializeProductController,
 }
