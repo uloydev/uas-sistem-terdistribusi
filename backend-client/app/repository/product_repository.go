@@ -23,6 +23,12 @@ func (repo *ProductRepository) Insert(product entity.Product) entity.Product {
 	return product
 }
 
+func (repo *ProductRepository) InsertBatch(products []entity.Product) []entity.Product {
+	result := repo.DB.CreateInBatches(&products, 100)
+	exception.PanicWhenError(result.Error)
+	return products
+}
+
 func (repo *ProductRepository) FindAll() (products []entity.Product) {
 	result := repo.DB.Find(&products)
 	exception.PanicWhenError(result.Error)
@@ -50,4 +56,9 @@ func (repo *ProductRepository) UpdateById(product entity.Product) entity.Product
 	}).First(&product)
 	exception.PanicValidationWhenError(result.Error)
 	return product
+}
+
+func (repo *ProductRepository) DeleteByStatus(isMaster bool) {
+	result := repo.DB.Where("is_master = ?", isMaster).Delete(&entity.Product{})
+	exception.PanicWhenError(result.Error)
 }

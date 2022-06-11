@@ -1,6 +1,9 @@
 package controller
 
 import (
+	"encoding/json"
+	"net/http"
+	"net/url"
 	"sister-backend/app/model"
 	"sister-backend/app/repository"
 	"sister-backend/app/service"
@@ -33,6 +36,7 @@ func (controller *ProductController) Route(api *fiber.Group) {
 	api.Get("/product", controller.List)
 	api.Delete("/product/:id", controller.Delete)
 	api.Put("/product/:id", controller.Update)
+	api.Get("/product/sync", controller.SyncProduct)
 }
 
 // CreateProduct is a function to insert Product to database
@@ -61,7 +65,6 @@ func (controller *ProductController) Create(c *fiber.Ctx) error {
 }
 
 // GetAllProduct is a function to get all Product data from database
-// @Security ApiKeyAuth
 // @Summary      Get All Product
 // @Description  get all Product data from database
 // @Tags         product
@@ -105,10 +108,9 @@ func (controller *ProductController) Delete(c *fiber.Ctx) error {
 }
 
 // UpdateProduct is a function to update Product to database
-// @Security ApiKeyAuth
 // @Summary      Update Product
 // @Description  Update Product
-// @Tags         Product
+// @Tags         product
 // @Accept       json
 // @Produce      json
 // @Param 		 id path int false "int valid" mininum(1)
@@ -132,4 +134,73 @@ func (controller *ProductController) Update(c *fiber.Ctx) error {
 		Status: "OK",
 		Data:   response,
 	})
+}
+
+// SyncProduct is a function to Sync Product data from master
+// @Summary      Sync Product
+// @Description  Sync Product data from master
+// @Tags         product
+// @Accept       json
+// @Produce      json
+// @Param        license  query      model.LicenseCheckRequest  true  "License"
+// @Success      200   {object}  model.WebResponse{data=[]model.ProductResponse}
+// @Failure      500   {object}  model.WebResponse{data=string}
+// @Failure      400   {object}  model.WebResponse{data=string}
+// @Router       /v1/product/sync [get]
+func (controller *ProductController) SyncProduct(c *fiber.Ctx) error {
+	var request model.LicenseCheckRequest
+	var data model.WebResponse
+	var products []model.ProductRequest
+
+	err := c.QueryParser(&request)
+	url := url.URL{
+		Scheme: "http",
+		Host:   "localhost:8691",
+		Path:   "v1/product",
+	}
+
+	query := url.Query()
+
+	query.Add("username", request.Username)
+	query.Add("key", request.Key)
+
+	url.RawQuery = query.Encode()
+
+	resp, err := http.Get(url.String())
+
+	if err != nil {
+		return err
+	}
+
+	err = json.NewDecoder(resp.Body).Decode(&data)
+
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if data.Code != http.StatusOK {
+		return c.JSON(data)
+	}
+
+	// prepare data
+	for _, item := range data.Data.([]map[string]any) {
+		products = append(products, model.ProductRequest{
+			Title:       item["title"].(string),
+			Price:       item["price"].(int),
+			Description: item["description"].(string),
+			Stock:       item["stock"].(int),
+		})
+	}
+
+	controller.Service.DeleteByStatus(true)
+
+	responses := controller.Service.CreateBatch(products)
+
+	return c.JSON(model.WebResponse{
+		Code:   200,
+		Status: "OK",
+		Data:   responses,
+	})
+
 }
