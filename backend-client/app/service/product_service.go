@@ -94,10 +94,11 @@ func (service *ProductService) Delete(ID uint) (responses string) {
 	return "product with id " + strconv.Itoa(int(ID)) + " deleted."
 }
 
-func (service *ProductService) UpdateById(marketplace_id uint, request model.ProductRequest) (response model.ProductResponse) {
+func (service *ProductService) UpdateById(ID uint, request model.ProductRequest) (response model.ProductResponse) {
 	validation.ValidateProduct(request)
 
 	product := entity.Product{
+		BaseEntity:  entity.BaseEntity{ID: ID},
 		Title:       request.Title,
 		Description: request.Description,
 		Price:       request.Price,
