@@ -1,39 +1,29 @@
 definitions:
-  model.ProductRequest:
+  model.LicenseRequest:
     properties:
-      description:
-        example: Macbook Air with apple silicon M1 chip
+      is_active:
+        type: boolean
+      key:
         type: string
-      price:
-        example: "15000000"
-        type: string
-      stock:
-        example: "29"
-        type: string
-      title:
-        example: Macbook Air M1
+      username:
         type: string
     type: object
-  model.ProductResponse:
+  model.LicenseResponse:
     properties:
       created_at:
         type: integer
       deleted_at:
         type: integer
-      description:
-        type: string
       id:
         type: integer
-      is_master:
+      is_active:
         type: boolean
-      price:
-        type: string
-      stock:
-        type: string
-      title:
+      key:
         type: string
       updated_at:
         type: integer
+      username:
+        type: string
     type: object
   model.WebResponse:
     properties:
@@ -52,11 +42,11 @@ info:
   title: SISTEM TERDISTRIBUSI API
   version: "1.0"
 paths:
-  /v1/product:
+  /v1/license:
     get:
       consumes:
       - application/json
-      description: get all Product data from database
+      description: get all License data from database
       produces:
       - application/json
       responses:
@@ -68,7 +58,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/model.ProductResponse'
+                    $ref: '#/definitions/model.LicenseResponse'
                   type: array
               type: object
         "400":
@@ -89,22 +79,20 @@ paths:
                 data:
                   type: string
               type: object
-      security:
-      - ApiKeyAuth: []
-      summary: Get All Product
+      summary: Get All License
       tags:
-      - product
+      - License
     post:
       consumes:
       - application/json
-      description: Create New Product
+      description: Create New License
       parameters:
-      - description: Create Product
+      - description: Create License
         in: body
-        name: product
+        name: license
         required: true
         schema:
-          $ref: '#/definitions/model.ProductRequest'
+          $ref: '#/definitions/model.LicenseRequest'
       produces:
       - application/json
       responses:
@@ -115,7 +103,7 @@ paths:
             - $ref: '#/definitions/model.WebResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/model.ProductResponse'
+                  $ref: '#/definitions/model.LicenseResponse'
               type: object
         "400":
           description: Bad Request
@@ -135,14 +123,14 @@ paths:
                 data:
                   type: string
               type: object
-      summary: Create Product
+      summary: Create License
       tags:
-      - product
-  /v1/product/{id}:
+      - License
+  /v1/license/{id}:
     delete:
       consumes:
       - application/json
-      description: Delete Product
+      description: Delete License
       parameters:
       - description: int valid
         in: path
@@ -178,24 +166,24 @@ paths:
                 data:
                   type: string
               type: object
-      summary: Delete Product
+      summary: Delete License
       tags:
-      - product
+      - License
     put:
       consumes:
       - application/json
-      description: Update Product
+      description: Update License
       parameters:
       - description: int valid
         in: path
         name: id
         type: integer
-      - description: Update Product
+      - description: Update License
         in: body
-        name: product
+        name: license
         required: true
         schema:
-          $ref: '#/definitions/model.ProductRequest'
+          $ref: '#/definitions/model.LicenseRequest'
       produces:
       - application/json
       responses:
@@ -206,7 +194,7 @@ paths:
             - $ref: '#/definitions/model.WebResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/model.ProductResponse'
+                  $ref: '#/definitions/model.LicenseResponse'
               type: object
         "400":
           description: Bad Request
@@ -226,11 +214,54 @@ paths:
                 data:
                   type: string
               type: object
-      security:
-      - ApiKeyAuth: []
-      summary: Update Product
+      summary: Update License
       tags:
-      - Product
+      - License
+  /v1/license/check:
+    get:
+      consumes:
+      - application/json
+      description: Check License
+      parameters:
+      - in: query
+        name: key
+        type: string
+      - in: query
+        name: username
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.LicenseResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Check License
+      tags:
+      - License
 securityDefinitions:
   ApiKeyAuth:
     in: header
