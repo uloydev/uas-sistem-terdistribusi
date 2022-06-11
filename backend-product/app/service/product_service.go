@@ -26,7 +26,7 @@ func (service *ProductService) Create(request model.ProductRequest) (response mo
 		Description: request.Description,
 		Price:       request.Price,
 		Stock:       request.Stock,
-		IsMaster:    false,
+		IsMaster:    true,
 	}
 	product = service.Repo.Insert(product)
 

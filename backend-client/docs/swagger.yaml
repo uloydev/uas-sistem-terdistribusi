@@ -5,11 +5,11 @@ definitions:
         example: Macbook Air with apple silicon M1 chip
         type: string
       price:
-        example: "15000000"
-        type: string
+        example: 15000000
+        type: integer
       stock:
-        example: "29"
-        type: string
+        example: 29
+        type: integer
       title:
         example: Macbook Air M1
         type: string
@@ -27,9 +27,9 @@ definitions:
       is_master:
         type: boolean
       price:
-        type: string
+        type: integer
       stock:
-        type: string
+        type: integer
       title:
         type: string
       updated_at:
@@ -89,8 +89,6 @@ paths:
                 data:
                   type: string
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: Get All Product
       tags:
       - product
@@ -226,11 +224,49 @@ paths:
                 data:
                   type: string
               type: object
-      security:
-      - ApiKeyAuth: []
       summary: Update Product
       tags:
-      - Product
+      - product
+  /v1/product/sync:
+    get:
+      consumes:
+      - application/json
+      description: Sync Product data from master
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.ProductResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Sync Product
+      tags:
+      - product
 securityDefinitions:
   ApiKeyAuth:
     in: header

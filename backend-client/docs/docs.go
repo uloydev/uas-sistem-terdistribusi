@@ -21,11 +21,6 @@ const docTemplate = `{
     "paths": {
         "/v1/product": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "get all Product data from database",
                 "consumes": [
                     "application/json"
@@ -178,13 +173,82 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/product/sync": {
+            "get": {
+                "description": "Sync Product data from master",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "Sync Product",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.WebResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/model.ProductResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.WebResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.WebResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/v1/product/{id}": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Update Product",
                 "consumes": [
                     "application/json"
@@ -193,7 +257,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Product"
+                    "product"
                 ],
                 "summary": "Update Product",
                 "parameters": [
@@ -358,12 +422,12 @@ const docTemplate = `{
                     "example": "Macbook Air with apple silicon M1 chip"
                 },
                 "price": {
-                    "type": "string",
-                    "example": "15000000"
+                    "type": "integer",
+                    "example": 15000000
                 },
                 "stock": {
-                    "type": "string",
-                    "example": "29"
+                    "type": "integer",
+                    "example": 29
                 },
                 "title": {
                     "type": "string",
@@ -390,10 +454,10 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "price": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "stock": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "title": {
                     "type": "string"

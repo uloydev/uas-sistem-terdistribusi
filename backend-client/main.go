@@ -4,10 +4,13 @@ import (
 	"sister-backend/config"
 	"sister-backend/db"
 	"sister-backend/initialize"
+	"sister-backend/job"
 	"sister-backend/utils"
+	"time"
 
 	_ "sister-backend/docs"
 
+	"github.com/go-co-op/gocron"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
@@ -42,6 +45,11 @@ func main() {
 		DeepLinking:  false,
 		DocExpansion: "none",
 	}))
+
+	// register jobs
+	s := gocron.NewScheduler(time.UTC)
+	s.Every(3).Hour().Do(job.SyncProduct)
+	s.StartAsync()
 
 	app.Listen(":8693")
 }

@@ -7,6 +7,7 @@ import (
 	"sister-backend/app/model"
 	"sister-backend/app/repository"
 	"sister-backend/app/service"
+	"sister-backend/config"
 	"sister-backend/exception"
 	"strconv"
 
@@ -142,17 +143,16 @@ func (controller *ProductController) Update(c *fiber.Ctx) error {
 // @Tags         product
 // @Accept       json
 // @Produce      json
-// @Param        license  query      model.LicenseCheckRequest  true  "License"
 // @Success      200   {object}  model.WebResponse{data=[]model.ProductResponse}
 // @Failure      500   {object}  model.WebResponse{data=string}
 // @Failure      400   {object}  model.WebResponse{data=string}
 // @Router       /v1/product/sync [get]
 func (controller *ProductController) SyncProduct(c *fiber.Ctx) error {
-	var request model.LicenseCheckRequest
 	var data model.WebResponse
 	var products []model.ProductRequest
 
-	err := c.QueryParser(&request)
+	conf := config.New()
+
 	url := url.URL{
 		Scheme: "http",
 		Host:   "localhost:8691",
@@ -161,8 +161,8 @@ func (controller *ProductController) SyncProduct(c *fiber.Ctx) error {
 
 	query := url.Query()
 
-	query.Add("username", request.Username)
-	query.Add("key", request.Key)
+	query.Add("username", conf.Get("LICENSE_USERNAME"))
+	query.Add("key", conf.Get("LICENSE_KEY"))
 
 	url.RawQuery = query.Encode()
 
@@ -184,12 +184,13 @@ func (controller *ProductController) SyncProduct(c *fiber.Ctx) error {
 	}
 
 	// prepare data
-	for _, item := range data.Data.([]map[string]any) {
+	for _, temp := range data.Data.([]any) {
+		item := temp.(map[string]any)
 		products = append(products, model.ProductRequest{
 			Title:       item["title"].(string),
-			Price:       item["price"].(int),
+			Price:       int(item["price"].(float64)),
 			Description: item["description"].(string),
-			Stock:       item["stock"].(int),
+			Stock:       int(item["stock"].(float64)),
 		})
 	}
 
