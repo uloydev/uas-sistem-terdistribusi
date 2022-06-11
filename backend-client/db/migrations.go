@@ -8,5 +8,5 @@ import (
 
 var Migrations = []*gormigrate.Migration{
 
-	migrations.CreateLicensesTable,
+	migrations.CreateProductsTable,
 }

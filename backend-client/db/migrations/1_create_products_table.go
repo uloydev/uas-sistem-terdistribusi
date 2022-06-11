@@ -7,12 +7,12 @@ import (
 	"gorm.io/gorm"
 )
 
-var CreateLicensesTable *gormigrate.Migration = &gormigrate.Migration{
-	ID: "create_licenses_table",
+var CreateProductsTable *gormigrate.Migration = &gormigrate.Migration{
+	ID: "create_products_table",
 	Migrate: func(dbConn *gorm.DB) error {
-		return dbConn.AutoMigrate(&entity.License{})
+		return dbConn.AutoMigrate(&entity.Product{})
 	},
 	Rollback: func(dbConn *gorm.DB) error {
-		return dbConn.Migrator().DropTable("licenses")
+		return dbConn.Migrator().DropTable("products")
 	},
 }

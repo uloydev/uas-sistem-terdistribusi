@@ -38,10 +38,10 @@ func main() {
 	app.Get("/swagger/*", swagger.HandlerDefault) // default
 
 	app.Get("/swagger/*", swagger.New(swagger.Config{ // custom
-		URL:          "http://localhost:6991/doc.json",
+		URL:          "http://localhost:8693/doc.json",
 		DeepLinking:  false,
 		DocExpansion: "none",
 	}))
 
-	app.Listen(":6991")
+	app.Listen(":8693")
 }

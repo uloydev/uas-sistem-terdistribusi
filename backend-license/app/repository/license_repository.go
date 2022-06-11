@@ -40,8 +40,8 @@ func (repo *LicenseRepository) Delete(ID uint) {
 	exception.PanicWhenError(result.Error)
 }
 
-func (repo *LicenseRepository) UpdateById(license entity.License) entity.License {
-	result := repo.DB.Model(&license).Updates(map[string]any{
+func (repo *LicenseRepository) UpdateById(ID uint, license entity.License) entity.License {
+	result := repo.DB.Model(&license).Where("id = ?", ID).Updates(map[string]any{
 		"username":  license.Username,
 		"key":       license.Key,
 		"is_active": license.IsActive,

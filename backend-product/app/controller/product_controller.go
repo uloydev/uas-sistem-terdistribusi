@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"sister-backend/app/middleware"
 	"sister-backend/app/model"
 	"sister-backend/app/repository"
 	"sister-backend/app/service"
@@ -29,19 +30,20 @@ func InitializeProductController(api *fiber.Group, DB *gorm.DB, MailConn *gomail
 }
 
 func (controller *ProductController) Route(api *fiber.Group) {
-	api.Post("/product", controller.Create)
-	api.Get("/product", controller.List)
-	api.Delete("/product/:id", controller.Delete)
-	api.Put("/product/:id", controller.Update)
+	api.Post("/product", middleware.LicenseProtected, controller.Create)
+	api.Get("/product", middleware.LicenseProtected, controller.List)
+	api.Delete("/product/:id", middleware.LicenseProtected, controller.Delete)
+	api.Put("/product/:id", middleware.LicenseProtected, controller.Update)
 }
 
 // CreateProduct is a function to insert Product to database
 // @Summary      Create Product
 // @Description  Create New Product
-// @Tags         product
+// @Tags         Product
 // @Accept       json
 // @Produce      json
 // @Param        product  body      model.ProductRequest  true  "Create Product"
+// @Param        license  query      model.LicenseCheckRequest  true  "License"
 // @Success      200   {object}  model.WebResponse{data=model.ProductResponse}
 // @Failure      500   {object}  model.WebResponse{data=string}
 // @Failure      400   {object}  model.WebResponse{data=string}
@@ -61,12 +63,12 @@ func (controller *ProductController) Create(c *fiber.Ctx) error {
 }
 
 // GetAllProduct is a function to get all Product data from database
-// @Security ApiKeyAuth
 // @Summary      Get All Product
 // @Description  get all Product data from database
-// @Tags         product
+// @Tags         Product
 // @Accept       json
 // @Produce      json
+// @Param        license  query      model.LicenseCheckRequest  true  "License"
 // @Success      200   {object}  model.WebResponse{data=[]model.ProductResponse}
 // @Failure      500   {object}  model.WebResponse{data=string}
 // @Failure      400   {object}  model.WebResponse{data=string}
@@ -84,10 +86,11 @@ func (controller *ProductController) List(c *fiber.Ctx) error {
 // DeleteProduct is a function to delete Product from database
 // @Summary      Delete Product
 // @Description  Delete Product
-// @Tags         product
+// @Tags         Product
 // @Accept       json
 // @Produce      json
 // @Param id path int false "int valid" mininum(1)
+// @Param        license  query      model.LicenseCheckRequest  true  "License"
 // @Success      200   {object}  model.WebResponse{data=string}
 // @Failure      500   {object}  model.WebResponse{data=string}
 // @Failure      400   {object}  model.WebResponse{data=string}
@@ -105,7 +108,6 @@ func (controller *ProductController) Delete(c *fiber.Ctx) error {
 }
 
 // UpdateProduct is a function to update Product to database
-// @Security ApiKeyAuth
 // @Summary      Update Product
 // @Description  Update Product
 // @Tags         Product
@@ -113,6 +115,7 @@ func (controller *ProductController) Delete(c *fiber.Ctx) error {
 // @Produce      json
 // @Param 		 id path int false "int valid" mininum(1)
 // @Param        product  body      model.ProductRequest  true  "Update Product"
+// @Param        license  query      model.LicenseCheckRequest  true  "License"
 // @Success      200   {object}  model.WebResponse{data=model.ProductResponse}
 // @Failure      500   {object}  model.WebResponse{data=string}
 // @Failure      400   {object}  model.WebResponse{data=string}

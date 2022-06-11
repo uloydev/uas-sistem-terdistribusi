@@ -3,8 +3,8 @@ package entity
 type Product struct {
 	BaseEntity
 	Title       string
-	Price       string
+	Price       int
 	Description string
-	Stock       string
+	Stock       int
 	IsMaster    bool
 }

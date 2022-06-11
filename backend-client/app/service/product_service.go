@@ -47,6 +47,43 @@ func (service *ProductService) Create(request model.ProductRequest) (response mo
 	return response
 }
 
+func (service *ProductService) CreateBatch(requests []model.ProductRequest) (responses []model.ProductResponse) {
+	var products []entity.Product
+	var product entity.Product
+
+	for _, request := range requests {
+		validation.ValidateProduct(request)
+		product = entity.Product{
+			Title:       request.Title,
+			Description: request.Description,
+			Price:       request.Price,
+			Stock:       request.Stock,
+			IsMaster:    true,
+		}
+		products = append(products, product)
+	}
+
+	products = service.Repo.InsertBatch(products)
+
+	for _, product := range products {
+		responses = append(responses, model.ProductResponse{
+			BasicData: model.BasicData{
+				ID:        product.ID,
+				CreatedAt: product.CreatedAt,
+				UpdatedAt: product.UpdatedAt,
+				DeletedAt: product.DeletedAt,
+			},
+			Title:       product.Title,
+			Description: product.Description,
+			Price:       product.Price,
+			Stock:       product.Stock,
+			IsMaster:    product.IsMaster,
+		})
+	}
+
+	return responses
+}
+
 func (service *ProductService) List() (responses []model.ProductResponse) {
 	products := service.Repo.FindAll()
 
@@ -94,10 +131,16 @@ func (service *ProductService) Delete(ID uint) (responses string) {
 	return "product with id " + strconv.Itoa(int(ID)) + " deleted."
 }
 
-func (service *ProductService) UpdateById(marketplace_id uint, request model.ProductRequest) (response model.ProductResponse) {
+func (service *ProductService) DeleteByStatus(IsMaster bool) (responses string) {
+	service.Repo.DeleteByStatus(IsMaster)
+	return "product with is_master " + strconv.FormatBool(IsMaster) + " deleted."
+}
+
+func (service *ProductService) UpdateById(ID uint, request model.ProductRequest) (response model.ProductResponse) {
 	validation.ValidateProduct(request)
 
 	product := entity.Product{
+		BaseEntity:  entity.BaseEntity{ID: ID},
 		Title:       request.Title,
 		Description: request.Description,
 		Price:       request.Price,

@@ -21,11 +21,6 @@ const docTemplate = `{
     "paths": {
         "/v1/product": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "get all Product data from database",
                 "consumes": [
                     "application/json"
@@ -34,9 +29,21 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "Product"
                 ],
                 "summary": "Get All Product",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -106,7 +113,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "Product"
                 ],
                 "summary": "Create Product",
                 "parameters": [
@@ -118,6 +125,16 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.ProductRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -180,11 +197,6 @@ const docTemplate = `{
         },
         "/v1/product/{id}": {
             "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Update Product",
                 "consumes": [
                     "application/json"
@@ -211,6 +223,16 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.ProductRequest"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -279,7 +301,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "Product"
                 ],
                 "summary": "Delete Product",
                 "parameters": [
@@ -288,6 +310,16 @@ const docTemplate = `{
                         "description": "int valid",
                         "name": "id",
                         "in": "path"
+                    },
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
                     }
                 ],
                 "responses": {
