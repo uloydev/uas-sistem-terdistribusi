@@ -16,7 +16,7 @@ func LicenseProtected(c *fiber.Ctx) error {
 	}
 
 	var request model.LicenseCheckRequest
-	var data map[string]any
+	var data model.WebResponse
 
 	err := c.QueryParser(&request)
 	exception.PanicWhenError(err)
@@ -47,11 +47,19 @@ func LicenseProtected(c *fiber.Ctx) error {
 	}
 	defer resp.Body.Close()
 
-	if val, _ := data["code"]; int(val.(float64)) != http.StatusOK {
+	if data.Code != http.StatusOK {
 		return c.JSON(model.WebResponse{
 			Code:   http.StatusUnauthorized,
 			Status: "Unathorized",
 			Data:   "License Needed",
+		})
+	}
+
+	if !data.Data.(map[string]any)["is_active"].(bool) {
+		return c.JSON(model.WebResponse{
+			Code:   http.StatusUnauthorized,
+			Status: "Unathorized",
+			Data:   "License Is Not Active",
 		})
 	}
 
