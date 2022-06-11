@@ -34,3 +34,20 @@ func (repo *ProductRepository) FindById(ID uint) (product entity.Product) {
 	exception.PanicValidationWhenError(result.Error)
 	return product
 }
+
+func (repo *ProductRepository) Delete(ID uint) {
+	result := repo.DB.Delete(&entity.Product{}, ID)
+	exception.PanicWhenError(result.Error)
+}
+
+func (repo *ProductRepository) UpdateById(product entity.Product) entity.Product {
+	result := repo.DB.Model(&product).Updates(map[string]any{
+		"title":       product.Title,
+		"price":       product.Price,
+		"stock":       product.Stock,
+		"description": product.Description,
+		"is_master":   product.IsMaster,
+	}).First(&product)
+	exception.PanicValidationWhenError(result.Error)
+	return product
+}

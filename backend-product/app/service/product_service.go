@@ -5,6 +5,7 @@ import (
 	"sister-backend/app/model"
 	"sister-backend/app/repository"
 	"sister-backend/app/validation"
+	"strconv"
 )
 
 type ProductService struct {
@@ -68,8 +69,43 @@ func (service *ProductService) List() (responses []model.ProductResponse) {
 	return responses
 }
 
-func (service *ProductService) FindById(Admin_id uint) (response model.ProductResponse) {
-	product := service.Repo.FindById(Admin_id)
+func (service *ProductService) FindById(ID uint) (response model.ProductResponse) {
+	product := service.Repo.FindById(ID)
+
+	response = model.ProductResponse{
+		BasicData: model.BasicData{
+			ID:        product.ID,
+			CreatedAt: product.CreatedAt,
+			UpdatedAt: product.UpdatedAt,
+			DeletedAt: product.DeletedAt,
+		},
+		Title:       product.Title,
+		Description: product.Description,
+		Price:       product.Price,
+		Stock:       product.Stock,
+		IsMaster:    product.IsMaster,
+	}
+
+	return response
+}
+
+func (service *ProductService) Delete(ID uint) (responses string) {
+	service.Repo.Delete(ID)
+	return "product with id " + strconv.Itoa(int(ID)) + " deleted."
+}
+
+func (service *ProductService) UpdateById(marketplace_id uint, request model.ProductRequest) (response model.ProductResponse) {
+	validation.ValidateProduct(request)
+
+	product := entity.Product{
+		Title:       request.Title,
+		Description: request.Description,
+		Price:       request.Price,
+		Stock:       request.Stock,
+		IsMaster:    false,
+	}
+
+	product = service.Repo.UpdateById(product)
 
 	response = model.ProductResponse{
 		BasicData: model.BasicData{
