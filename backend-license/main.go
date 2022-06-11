@@ -43,5 +43,5 @@ func main() {
 		DocExpansion: "none",
 	}))
 
-	app.Listen(":6991")
+	app.Listen(":8692")
 }

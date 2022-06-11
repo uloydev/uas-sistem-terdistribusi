@@ -39,7 +39,7 @@ func (controller *LiceseController) Route(api *fiber.Group) {
 // CreateLicense is a function to insert License to database
 // @Summary      Create License
 // @Description  Create New License
-// @Tags         license
+// @Tags         License
 // @Accept       json
 // @Produce      json
 // @Param        license  body      model.LicenseRequest  true  "Create License"
@@ -64,7 +64,7 @@ func (controller *LiceseController) Create(c *fiber.Ctx) error {
 // GetAllLicense is a function to get all License data from database
 // @Summary      Get All License
 // @Description  get all License data from database
-// @Tags         license
+// @Tags         License
 // @Accept       json
 // @Produce      json
 // @Success      200   {object}  model.WebResponse{data=[]model.LicenseResponse}
@@ -84,7 +84,7 @@ func (controller *LiceseController) List(c *fiber.Ctx) error {
 // DeleteLicense is a function to delete License from database
 // @Summary      Delete License
 // @Description  Delete License
-// @Tags         license
+// @Tags         License
 // @Accept       json
 // @Produce      json
 // @Param id path int false "int valid" mininum(1)

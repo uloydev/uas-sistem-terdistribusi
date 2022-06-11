@@ -29,7 +29,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "license"
+                    "License"
                 ],
                 "summary": "Get All License",
                 "responses": {
@@ -101,7 +101,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "license"
+                    "License"
                 ],
                 "summary": "Create License",
                 "parameters": [
@@ -352,7 +352,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "license"
+                    "License"
                 ],
                 "summary": "Delete License",
                 "parameters": [

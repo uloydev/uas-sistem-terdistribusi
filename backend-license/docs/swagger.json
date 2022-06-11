@@ -20,7 +20,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "license"
+                    "License"
                 ],
                 "summary": "Get All License",
                 "responses": {
@@ -92,7 +92,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "license"
+                    "License"
                 ],
                 "summary": "Create License",
                 "parameters": [
@@ -343,7 +343,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "license"
+                    "License"
                 ],
                 "summary": "Delete License",
                 "parameters": [

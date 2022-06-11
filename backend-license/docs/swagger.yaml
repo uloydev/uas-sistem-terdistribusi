@@ -81,7 +81,7 @@ paths:
               type: object
       summary: Get All License
       tags:
-      - license
+      - License
     post:
       consumes:
       - application/json
@@ -125,7 +125,7 @@ paths:
               type: object
       summary: Create License
       tags:
-      - license
+      - License
   /v1/license/{id}:
     delete:
       consumes:
@@ -168,7 +168,7 @@ paths:
               type: object
       summary: Delete License
       tags:
-      - license
+      - License
     put:
       consumes:
       - application/json
