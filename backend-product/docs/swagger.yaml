@@ -1,87 +1,36 @@
 definitions:
-  model.AdminRequest:
+  model.ProductRequest:
     properties:
-      email:
-        example: admin@toqcer.id
+      description:
+        example: Macbook Air with apple silicon M1 chip
         type: string
-      name:
-        example: admin
+      price:
+        example: "15000000"
         type: string
-      password:
-        example: strongpassword
+      stock:
+        example: "29"
+        type: string
+      title:
+        example: Macbook Air M1
         type: string
     type: object
-  model.AdminResponse:
+  model.ProductResponse:
     properties:
       created_at:
         type: integer
       deleted_at:
         type: integer
-      email:
+      description:
         type: string
       id:
         type: integer
-      name:
+      is_master:
+        type: boolean
+      price:
         type: string
-      updated_at:
-        type: integer
-    type: object
-  model.AuthRequest:
-    properties:
-      email:
-        example: user@toqcer.id
+      stock:
         type: string
-      password:
-        example: strongpassword
-        type: string
-    type: object
-  model.AuthResponse:
-    properties:
-      email:
-        type: string
-      id:
-        type: integer
-      password:
-        type: string
-    type: object
-  model.ResetPasswordRequest:
-    properties:
-      email:
-        example: user@toqcer.id
-        type: string
-    type: object
-  model.UserRequest:
-    properties:
-      birthday:
-        type: integer
-      email:
-        example: user@toqcer.id
-        type: string
-      name:
-        example: toqcer
-        type: string
-      password:
-        example: strongpassword
-        type: string
-      phone:
-        example: "08512132332"
-        type: string
-    type: object
-  model.UserResponse:
-    properties:
-      birthday:
-        type: integer
-      created_at:
-        type: integer
-      deleted_at:
-        type: integer
-      email:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      phone:
+      title:
         type: string
       updated_at:
         type: integer
@@ -103,11 +52,11 @@ info:
   title: SISTEM TERDISTRIBUSI API
   version: "1.0"
 paths:
-  /v1/admin:
+  /v1/product:
     get:
       consumes:
       - application/json
-      description: get all Admin data from database
+      description: get all Product data from database
       produces:
       - application/json
       responses:
@@ -119,7 +68,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/model.AdminResponse'
+                    $ref: '#/definitions/model.ProductResponse'
                   type: array
               type: object
         "400":
@@ -142,20 +91,20 @@ paths:
               type: object
       security:
       - ApiKeyAuth: []
-      summary: Get All Admin
+      summary: Get All Product
       tags:
-      - admin
+      - product
     post:
       consumes:
       - application/json
-      description: Create New Admin / Register Admin
+      description: Create New Product
       parameters:
-      - description: Register Admin
+      - description: Create Product
         in: body
-        name: admin
+        name: product
         required: true
         schema:
-          $ref: '#/definitions/model.AdminRequest'
+          $ref: '#/definitions/model.ProductRequest'
       produces:
       - application/json
       responses:
@@ -166,7 +115,98 @@ paths:
             - $ref: '#/definitions/model.WebResponse'
             - properties:
                 data:
-                  $ref: '#/definitions/model.AdminResponse'
+                  $ref: '#/definitions/model.ProductResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Create Product
+      tags:
+      - product
+  /v1/product/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Product
+      parameters:
+      - description: int valid
+        in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Delete Product
+      tags:
+      - product
+    put:
+      consumes:
+      - application/json
+      description: Update Product
+      parameters:
+      - description: int valid
+        in: path
+        name: id
+        type: integer
+      - description: Update Product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/model.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.ProductResponse'
               type: object
         "400":
           description: Bad Request
@@ -188,230 +228,9 @@ paths:
               type: object
       security:
       - ApiKeyAuth: []
-      summary: Create Admin
+      summary: Update Product
       tags:
-      - admin
-  /v1/admin/auth:
-    post:
-      consumes:
-      - application/json
-      description: authenticate admin / login admin
-      parameters:
-      - description: Auth admin
-        in: body
-        name: auth
-        required: true
-        schema:
-          $ref: '#/definitions/model.AuthRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/model.AuthResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: Auth Admin
-      tags:
-      - admin
-  /v1/user:
-    get:
-      consumes:
-      - application/json
-      description: get all user data from database
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/model.UserResponse'
-                  type: array
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-      security:
-      - ApiKeyAuth: []
-      summary: Get All User
-      tags:
-      - user
-    post:
-      consumes:
-      - application/json
-      description: Create New User / Register User
-      parameters:
-      - description: Register user
-        in: body
-        name: user
-        required: true
-        schema:
-          $ref: '#/definitions/model.UserRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/model.UserResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: Create User
-      tags:
-      - user
-  /v1/user/auth:
-    post:
-      consumes:
-      - application/json
-      description: authenticate user / login User
-      parameters:
-      - description: Auth user
-        in: body
-        name: auth
-        required: true
-        schema:
-          $ref: '#/definitions/model.AuthRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  $ref: '#/definitions/model.AuthResponse'
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: Auth User
-      tags:
-      - user
-  /v1/user/reset-password:
-    post:
-      consumes:
-      - application/json
-      description: request reset password user
-      parameters:
-      - description: Request Reset Password User
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/model.ResetPasswordRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-        "400":
-          description: Bad Request
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            allOf:
-            - $ref: '#/definitions/model.WebResponse'
-            - properties:
-                data:
-                  type: string
-              type: object
-      summary: Request Reset Password User
-      tags:
-      - user
+      - Product
 securityDefinitions:
   ApiKeyAuth:
     in: header
