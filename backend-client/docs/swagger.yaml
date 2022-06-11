@@ -1,0 +1,239 @@
+definitions:
+  model.ProductRequest:
+    properties:
+      description:
+        example: Macbook Air with apple silicon M1 chip
+        type: string
+      price:
+        example: "15000000"
+        type: string
+      stock:
+        example: "29"
+        type: string
+      title:
+        example: Macbook Air M1
+        type: string
+    type: object
+  model.ProductResponse:
+    properties:
+      created_at:
+        type: integer
+      deleted_at:
+        type: integer
+      description:
+        type: string
+      id:
+        type: integer
+      is_master:
+        type: boolean
+      price:
+        type: string
+      stock:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: integer
+    type: object
+  model.WebResponse:
+    properties:
+      code:
+        type: integer
+      data:
+        type: any
+      status:
+        type: string
+    type: object
+info:
+  contact:
+    email: uloydev.gmail.com
+    name: uloydev
+  description: SISTEM TERDISTRIBUSI API BACKEND.
+  title: SISTEM TERDISTRIBUSI API
+  version: "1.0"
+paths:
+  /v1/product:
+    get:
+      consumes:
+      - application/json
+      description: get all Product data from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.ProductResponse'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Product
+      tags:
+      - product
+    post:
+      consumes:
+      - application/json
+      description: Create New Product
+      parameters:
+      - description: Create Product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/model.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.ProductResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Create Product
+      tags:
+      - product
+  /v1/product/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Product
+      parameters:
+      - description: int valid
+        in: path
+        name: id
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Delete Product
+      tags:
+      - product
+    put:
+      consumes:
+      - application/json
+      description: Update Product
+      parameters:
+      - description: int valid
+        in: path
+        name: id
+        type: integer
+      - description: Update Product
+        in: body
+        name: product
+        required: true
+        schema:
+          $ref: '#/definitions/model.ProductRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.ProductResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/model.WebResponse'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Update Product
+      tags:
+      - Product
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
