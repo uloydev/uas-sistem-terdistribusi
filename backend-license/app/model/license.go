@@ -12,3 +12,8 @@ type LicenseRequest struct {
 	Key      string `json:"key"`
 	IsActive bool   `json:"is_active"`
 }
+
+type CheckLicenseRequest struct {
+	Username string `json:"username"`
+	Key      string `json:"key"`
+}

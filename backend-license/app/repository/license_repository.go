@@ -49,3 +49,9 @@ func (repo *LicenseRepository) UpdateById(license entity.License) entity.License
 	exception.PanicValidationWhenError(result.Error)
 	return license
 }
+
+func (repo *LicenseRepository) FindByUsernameKey(username string, key string) (license entity.License) {
+	result := repo.DB.Where("username = ?", username).Where("key = ?", key).First(&license)
+	exception.PanicValidationWhenError(result.Error)
+	return license
+}

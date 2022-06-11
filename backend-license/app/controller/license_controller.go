@@ -33,6 +33,7 @@ func (controller *LiceseController) Route(api *fiber.Group) {
 	api.Get("/license", controller.List)
 	api.Delete("/license/:id", controller.Delete)
 	api.Put("/license/:id", controller.Update)
+	api.Get("/license/check", controller.FindByUsernameKey)
 }
 
 // CreateLicense is a function to insert License to database
@@ -61,7 +62,6 @@ func (controller *LiceseController) Create(c *fiber.Ctx) error {
 }
 
 // GetAllLicense is a function to get all License data from database
-// @Security ApiKeyAuth
 // @Summary      Get All License
 // @Description  get all License data from database
 // @Tags         license
@@ -105,7 +105,6 @@ func (controller *LiceseController) Delete(c *fiber.Ctx) error {
 }
 
 // UpdateLicense is a function to update License to database
-// @Security ApiKeyAuth
 // @Summary      Update License
 // @Description  Update License
 // @Tags         License
@@ -127,6 +126,31 @@ func (controller *LiceseController) Update(c *fiber.Ctx) error {
 	exception.PanicWhenError(err)
 
 	response := controller.Service.UpdateById(uint(ID), request)
+	return c.JSON(model.WebResponse{
+		Code:   200,
+		Status: "OK",
+		Data:   response,
+	})
+}
+
+// CheckLicense is a function to update License to database
+// @Summary      Check License
+// @Description  Check License
+// @Tags         License
+// @Accept       json
+// @Produce      json
+// @Param        license  query      model.CheckLicenseRequest  true  "Check License"
+// @Success      200   {object}  model.WebResponse{data=model.LicenseResponse}
+// @Failure      500   {object}  model.WebResponse{data=string}
+// @Failure      400   {object}  model.WebResponse{data=string}
+// @Router       /v1/license/check [get]
+func (controller *LiceseController) FindByUsernameKey(c *fiber.Ctx) error {
+	var request model.CheckLicenseRequest
+
+	err := c.QueryParser(&request)
+	exception.PanicWhenError(err)
+
+	response := controller.Service.FindByUsernameKey(request.Username, request.Key)
 	return c.JSON(model.WebResponse{
 		Code:   200,
 		Status: "OK",

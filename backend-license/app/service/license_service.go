@@ -111,3 +111,21 @@ func (service *LicenseService) UpdateById(marketplace_id uint, request model.Lic
 
 	return response
 }
+
+func (service *LicenseService) FindByUsernameKey(username string, key string) (response model.LicenseResponse) {
+	license := service.Repo.FindByUsernameKey(username, key)
+
+	response = model.LicenseResponse{
+		BasicData: model.BasicData{
+			ID:        license.ID,
+			CreatedAt: license.CreatedAt,
+			UpdatedAt: license.UpdatedAt,
+			DeletedAt: license.DeletedAt,
+		},
+		Username: license.Username,
+		Key:      license.Key,
+		IsActive: license.IsActive,
+	}
+
+	return response
+}

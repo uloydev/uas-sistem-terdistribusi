@@ -19,14 +19,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/product": {
+        "/v1/license": {
             "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "get all Product data from database",
+                "description": "get all License data from database",
                 "consumes": [
                     "application/json"
                 ],
@@ -34,9 +29,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "license"
                 ],
-                "summary": "Get All Product",
+                "summary": "Get All License",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -51,7 +46,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/model.ProductResponse"
+                                                "$ref": "#/definitions/model.LicenseResponse"
                                             }
                                         }
                                     }
@@ -98,7 +93,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Create New Product",
+                "description": "Create New License",
                 "consumes": [
                     "application/json"
                 ],
@@ -106,17 +101,17 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "license"
                 ],
-                "summary": "Create Product",
+                "summary": "Create License",
                 "parameters": [
                     {
-                        "description": "Create Product",
-                        "name": "product",
+                        "description": "Create License",
+                        "name": "license",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.ProductRequest"
+                            "$ref": "#/definitions/model.LicenseRequest"
                         }
                     }
                 ],
@@ -132,7 +127,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/model.ProductResponse"
+                                            "$ref": "#/definitions/model.LicenseResponse"
                                         }
                                     }
                                 }
@@ -178,14 +173,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/product/{id}": {
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Update Product",
+        "/v1/license/check": {
+            "get": {
+                "description": "Check License",
                 "consumes": [
                     "application/json"
                 ],
@@ -193,9 +183,92 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Product"
+                    "License"
                 ],
-                "summary": "Update Product",
+                "summary": "Check License",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "key",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "name": "username",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.WebResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/model.LicenseResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.WebResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/model.WebResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/license/{id}": {
+            "put": {
+                "description": "Update License",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "License"
+                ],
+                "summary": "Update License",
                 "parameters": [
                     {
                         "type": "integer",
@@ -204,12 +277,12 @@ const docTemplate = `{
                         "in": "path"
                     },
                     {
-                        "description": "Update Product",
-                        "name": "product",
+                        "description": "Update License",
+                        "name": "license",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.ProductRequest"
+                            "$ref": "#/definitions/model.LicenseRequest"
                         }
                     }
                 ],
@@ -225,7 +298,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/model.ProductResponse"
+                                            "$ref": "#/definitions/model.LicenseResponse"
                                         }
                                     }
                                 }
@@ -271,7 +344,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Delete Product",
+                "description": "Delete License",
                 "consumes": [
                     "application/json"
                 ],
@@ -279,9 +352,9 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "product"
+                    "license"
                 ],
-                "summary": "Delete Product",
+                "summary": "Delete License",
                 "parameters": [
                     {
                         "type": "integer",
@@ -350,28 +423,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.ProductRequest": {
+        "model.LicenseRequest": {
             "type": "object",
             "properties": {
-                "description": {
-                    "type": "string",
-                    "example": "Macbook Air with apple silicon M1 chip"
+                "is_active": {
+                    "type": "boolean"
                 },
-                "price": {
-                    "type": "string",
-                    "example": "15000000"
+                "key": {
+                    "type": "string"
                 },
-                "stock": {
-                    "type": "string",
-                    "example": "29"
-                },
-                "title": {
-                    "type": "string",
-                    "example": "Macbook Air M1"
+                "username": {
+                    "type": "string"
                 }
             }
         },
-        "model.ProductResponse": {
+        "model.LicenseResponse": {
             "type": "object",
             "properties": {
                 "created_at": {
@@ -380,26 +446,20 @@ const docTemplate = `{
                 "deleted_at": {
                     "type": "integer"
                 },
-                "description": {
-                    "type": "string"
-                },
                 "id": {
                     "type": "integer"
                 },
-                "is_master": {
+                "is_active": {
                     "type": "boolean"
                 },
-                "price": {
-                    "type": "string"
-                },
-                "stock": {
-                    "type": "string"
-                },
-                "title": {
+                "key": {
                     "type": "string"
                 },
                 "updated_at": {
                     "type": "integer"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         },
