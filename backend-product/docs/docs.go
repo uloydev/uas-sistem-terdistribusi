@@ -390,12 +390,12 @@ const docTemplate = `{
                     "example": "Macbook Air with apple silicon M1 chip"
                 },
                 "price": {
-                    "type": "string",
-                    "example": "15000000"
+                    "type": "integer",
+                    "example": 15000000
                 },
                 "stock": {
-                    "type": "string",
-                    "example": "29"
+                    "type": "integer",
+                    "example": 29
                 },
                 "title": {
                     "type": "string",
@@ -422,10 +422,10 @@ const docTemplate = `{
                     "type": "boolean"
                 },
                 "price": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "stock": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "title": {
                     "type": "string"

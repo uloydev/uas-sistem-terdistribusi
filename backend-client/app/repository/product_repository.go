@@ -59,6 +59,6 @@ func (repo *ProductRepository) UpdateById(product entity.Product) entity.Product
 }
 
 func (repo *ProductRepository) DeleteByStatus(isMaster bool) {
-	result := repo.DB.Where("is_master = ?", isMaster).Delete(&entity.Product{})
+	result := repo.DB.Unscoped().Where("is_master = ?", isMaster).Delete(&entity.Product{})
 	exception.PanicWhenError(result.Error)
 }

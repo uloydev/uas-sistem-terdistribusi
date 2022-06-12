@@ -4,11 +4,15 @@ import (
 	"sister-backend/config"
 	"sister-backend/db"
 	"sister-backend/initialize"
+	"sister-backend/job"
 	"sister-backend/utils"
+	"time"
 
 	_ "sister-backend/docs"
 
+	"github.com/go-co-op/gocron"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/gofiber/swagger"
 )
@@ -30,6 +34,13 @@ func main() {
 
 	app := fiber.New(config.NewFiberConfig())
 	app.Use(recover.New())
+	app.Use(cors.New())
+
+	// Or extend your config for customization
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+		AllowMethods: "GET,POST,PUT,DELETE,OPTION",
+	}))
 
 	v1 := app.Group("/v1")
 
@@ -42,6 +53,11 @@ func main() {
 		DeepLinking:  false,
 		DocExpansion: "none",
 	}))
+
+	// register jobs
+	s := gocron.NewScheduler(time.UTC)
+	s.Every(3).Hour().Do(job.SyncProduct)
+	s.StartAsync()
 
 	app.Listen(":8693")
 }
