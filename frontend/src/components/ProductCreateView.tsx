@@ -2,14 +2,15 @@ import React, { useId } from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/router'
 
+import { BASE_URL_PRODUCT_API } from '../../utils/const'
+import buttonStyles from '../../styles/Button.module.css'
+
 import Input from './Input'
 import Template from './Template'
 import Label from './Label'
 import TextArea from './TextArea'
 import WrapperCard from './WrapperCard'
 import Button from './Button'
-import buttonStyles from '../../styles/Button.module.css'
-import { BASE_URL_PRODUCT_API } from '../../utils/const'
 
 const ProductCreateView = () => {
     const router = useRouter()
@@ -22,12 +23,12 @@ const ProductCreateView = () => {
     const requestCreateProduct = async () => {
         const payload = {
             description,
-            price,
-            stock,
+            price: Number(price),
+            stock: Number(stock),
             title
         }
         try {
-            await axios.post(`${BASE_URL_PRODUCT_API}?master=supersecret`, payload)
+            const response = await axios.post(`${BASE_URL_PRODUCT_API}?master=supersecret`, payload)
             router.push("/")
         }
         catch (err) {

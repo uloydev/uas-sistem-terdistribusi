@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { BASE_URL_LICENSE_API } from '../../utils/const'
 import { unixToDate } from '../../utils/helpers'
-import Button from './Button'
+import ActionTableButton from './ActionTableButton'
 import CustomTable from './CustomTable'
 import Template from './Template'
 import WrapperCard from './WrapperCard'
@@ -27,12 +27,12 @@ const LicenseListView = () => {
                 setLicense([])
                 return
             }
-            const filtererData = data.map((items: any) => {
+            const filtererData = data.map((item: any) => {
                 return {
-                    ...items,
-                    created_at: unixToDate(items.created_at),
-                    updated_at: unixToDate(items.updated_at),
-                    action: ActionButton(items.id)
+                    ...item,
+                    created_at: unixToDate(item.created_at),
+                    updated_at: unixToDate(item.updated_at),
+                    action: <ActionTableButton onUpdate={() => router.push(`/license/update/${item.id}`)} onDelete={() => handleDeleteLicense(item.id)} />
                 }
             })
             setLicense([...filtererData])
@@ -54,15 +54,6 @@ const LicenseListView = () => {
         } catch (err) {
             console.log(err)
         }
-    }
-
-    const ActionButton = (id: number) => {
-        return (
-            <div className='w-36 flex gap-4'>
-                <Button className='flex-1 bg-orange-400 p-2 rounded' onClick={() => router.push(`/license/update/${id}`)}>Update</Button>
-                <Button className='flex-1 bg-red-500 p-2 rounded' onClick={() => handleDeleteLicense(id)}>Deleted</Button>
-            </div>
-        )
     }
 
     React.useEffect(() => {

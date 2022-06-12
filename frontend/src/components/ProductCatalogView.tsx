@@ -1,7 +1,9 @@
 import axios from 'axios'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { BASE_URL_PRODUCT_API } from '../../utils/const'
 import { currencyIDR } from '../../utils/helpers'
+import ActionTableButton from './ActionTableButton'
 import CustomTable from './CustomTable'
 
 import Template from './Template'
@@ -17,48 +19,75 @@ interface ProductProp {
 }
 
 const ProductCatalogView = () => {
+    const router = useRouter();
     const [product, setProduct] = React.useState<ProductProp[] | []>([])
     const [isLoading, setIsLoading] = React.useState<boolean>(true)
 
+    const handleDeleteProduct = async (id: number) => {
+        try {
+            const response = await axios.delete(BASE_URL_PRODUCT_API + `/${id}?master=supersecret`)
+            fetchDataProduct()
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const fetchDataProduct = async () => {
+        try {
+            const { data: result } = await axios.get(BASE_URL_PRODUCT_API + "?master=supersecret")
+            const { data } = result
+            if (data === null) {
+                setProduct([])
+                setIsLoading(false)
+                return
+            }
+            const filtererData = data.map((item: any) => {
+                return {
+                    ...item,
+                    price: currencyIDR(item.price),
+                    action: <ActionTableButton onUpdate={() => router.push(`/product/update/${item.id}`)} onDelete={() => handleDeleteProduct(item.id)} />
+                }
+            })
+            setProduct([...filtererData])
+            setIsLoading(false)
+        } catch (err) {
+            setProduct([])
+            setIsLoading(false)
+            console.log(err)
+        }
+    }
+    const fetcher = React.useRef(fetchDataProduct);
+
     const columns = [
         {
-            name: 'id',
+            name: 'Id',
             selector: (row: any) => row.id
         },
         {
-            name: 'title',
+            name: 'Title',
             selector: (row: any) => row.title
         },
         {
-            name: 'stock',
+            name: 'Stock',
             selector: (row: any) => row.stock
         },
         {
-            name: 'price',
+            name: 'Price',
             selector: (row: any) => row.price
         },
         {
-            name: 'description',
+            name: 'Description',
             selector: (row: any) => row.description
+        },
+        {
+            name: 'Action',
+            selector: (row: any) => row.action
         }
     ]
 
     React.useEffect(() => {
-        const fetchDataProduct = async () => {
-            try {
-                const { data: result } = await axios.get(BASE_URL_PRODUCT_API + "?master=supersecret")
-                const { data } = result
-                let filtererData = data.map((item: any) => {
-                    return { ...item, price: currencyIDR(item.price) }
-                })
-                setProduct([...filtererData])
-                setIsLoading(false)
-            } catch (err) {
-                console.log(err)
-            }
-        }
-        fetchDataProduct()
-    }, [])
+        fetcher.current()
+    }, [fetcher])
 
     return (
         <Template title="Product Catalog">
