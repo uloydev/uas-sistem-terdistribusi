@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { ImSpinner11 } from 'react-icons/im'
+import { config } from '../../utils/config'
 
 import { BASE_URL_PRODUCT_API } from '../../utils/const'
 import { currencyIDR } from '../../utils/helpers'
@@ -30,7 +31,7 @@ const ProductCatalogView = () => {
 
     const handleDeleteProduct = async (id: number) => {
         try {
-            const response = await axios.delete(BASE_URL_PRODUCT_API + `/${id}`)
+            const response = await axios.delete(BASE_URL_PRODUCT_API + `/${id}`, config)
             fetchDataProduct()
         } catch (err) {
             console.log(err)
@@ -51,7 +52,7 @@ const ProductCatalogView = () => {
 
     const fetchDataProduct = async () => {
         try {
-            const { data: result } = await axios.get(BASE_URL_PRODUCT_API)
+            const { data: result } = await axios.get(BASE_URL_PRODUCT_API, config)
             const { data } = result
             if (data === null) {
                 setProduct([])

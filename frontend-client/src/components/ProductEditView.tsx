@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import React, { useId } from 'react'
 import { BASE_URL_PRODUCT_API } from '../../utils/const'
 import buttonStyles from '../../styles/Button.module.css'
+import { config } from '../../utils/config'
 
 import Button from './Button'
 import Input from './Input'
@@ -28,7 +29,7 @@ const ProductEditView = ({ product }: any) => {
             title
         }
         try {
-            const response = await axios.put(`${BASE_URL_PRODUCT_API}/${product.id}`, payload)
+            const response = await axios.put(`${BASE_URL_PRODUCT_API}/${product.id}`, payload, config)
             router.push("/")
         }
         catch (err) {

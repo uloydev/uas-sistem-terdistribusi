@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 
 import { BASE_URL_PRODUCT_API } from '../../utils/const'
 import buttonStyles from '../../styles/Button.module.css'
+import { config } from '../../utils/config'
 
 import Input from './Input'
 import Template from './Template'
@@ -20,6 +21,7 @@ const ProductCreateView = () => {
     const [price, setPrice] = React.useState<number>(0)
     const [stock, setStock] = React.useState<number>(0)
 
+
     const requestCreateProduct = async () => {
         const payload = {
             description,
@@ -28,7 +30,7 @@ const ProductCreateView = () => {
             title
         }
         try {
-            const response = await axios.post(`${BASE_URL_PRODUCT_API}`, payload)
+            const response = await axios.post(`${BASE_URL_PRODUCT_API}`, payload, config)
             router.push("/")
         }
         catch (err) {
