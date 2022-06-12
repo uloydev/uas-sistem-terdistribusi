@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router';
 import axios from 'axios';
 
 import { createKey } from '../../utils/helpers';
@@ -12,6 +13,7 @@ import Label from './Label';
 import { BASE_URL_LICENSE_API } from '../../utils/const';
 
 const LicenseCreateView = () => {
+    const router = useRouter()
     const [key, setKey] = React.useState('')
     const [username, setUsername] = React.useState('')
 
@@ -26,14 +28,13 @@ const LicenseCreateView = () => {
     const requestSaveLicense = async () => {
         const payload = {
             "is_active": true,
-            key,
-            username
+            key: key,
+            username: username
         }
         try {
             await axios.post(BASE_URL_LICENSE_API, payload)
-            alert('hehehe')
+            router.push('/license/show')
         } catch (err) {
-            alert('hehehe123')
             console.log(err)
         }
     }
