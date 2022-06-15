@@ -42,7 +42,7 @@ const CreditView = () => {
                     </div>
                     <div className='flex lg:gap-x-8 ml-5 gap-x-4 '>
                         <div className='w-40 h-40 relative flex-shrink-0 rounded-full overflow-hidden'>
-                            <Image className='scale-150' src="/hafidzdev.jpg" objectFit='cover' layout='fill' alt="pict" />
+                            <Image src="/apisDevv.jpeg" objectFit='cover' layout='fill' alt="pict" />
                         </div>
                         <div className='font-bold text-slate-300'>
                             <h4 className='text-orange-400 text-lg'>Name : Hafidz Ashabi Muhammad</h4>
