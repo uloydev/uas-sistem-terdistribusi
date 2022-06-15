@@ -31,7 +31,6 @@ func main() {
 
 	app := fiber.New(config.NewFiberConfig())
 	app.Use(recover.New())
-	app.Use(cors.New())
 
 	// Or extend your config for customization
 	app.Use(cors.New(cors.Config{
