@@ -11,8 +11,8 @@ const CreditView = () => {
             <WrapperCard className=''>
                 <div className='space-y-10 my-2'>
                     <div className='flex lg:gap-x-8 ml-5 gap-x-4'>
-                        <div className='w-40 h-40 relative rounded-full overflow-hidden'>
-                            <Image src="/uloydev.jpg" objectFit='cover' layout='fill' />
+                        <div className='w-40 h-40 flex-shrink-0 relative rounded-full overflow-hidden'>
+                            <Image src="/uloydev.jpg" objectFit='cover' layout='fill' alt="pict" />
                         </div>
                         <div className='font-bold text-slate-300'>
                             <h4 className='text-orange-400 text-lg'>Name : Wahyu Miftahul Aflah</h4>
@@ -26,8 +26,8 @@ const CreditView = () => {
                         </div>
                     </div>
                     <div className='flex lg:gap-x-8 ml-5 gap-x-4'>
-                        <div className='w-40 h-40 relative rounded-full brightness-75 overflow-hidden'>
-                            <Image src="/ijordev.jpeg" objectFit='cover' layout='fill' />
+                        <div className='w-40 h-40 relative flex-shrink-0 rounded-full brightness-75 overflow-hidden'>
+                            <Image src="/ijordev.jpeg" objectFit='cover' layout='fill' alt="pict" />
                         </div>
                         <div className='font-bold text-slate-300'>
                             <h4 className='text-orange-400 text-lg'>Name : Muhammad Fathurrahman</h4>
@@ -41,8 +41,8 @@ const CreditView = () => {
                         </div>
                     </div>
                     <div className='flex lg:gap-x-8 ml-5 gap-x-4 '>
-                        <div className='w-40 h-40 relative rounded-full overflow-hidden'>
-                            <Image className='scale-150' src="/hafidzdev.jpg" objectFit='cover' layout='fill' />
+                        <div className='w-40 h-40 relative flex-shrink-0 rounded-full overflow-hidden'>
+                            <Image className='scale-150' src="/hafidzdev.jpg" objectFit='cover' layout='fill' alt="pict" />
                         </div>
                         <div className='font-bold text-slate-300'>
                             <h4 className='text-orange-400 text-lg'>Name : Hafidz Ashabi Muhammad</h4>
@@ -50,6 +50,21 @@ const CreditView = () => {
                             <p>Email : hafidzashabi@upnvj.ac.id</p>
                             <p>Role : UI/UX | Design Grafis</p>
                             <a href="https://www.instagram.com/hafidzashabi/" rel='noreferrer' target="_blank" className='mt-2 rounded-md py-2 text-dark px-4 flex items-center bg-orange-400 w-36'>
+                                <BsInstagram size={20} />
+                                <span className='ml-3'>Instagram</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div className='flex lg:gap-x-8 ml-5 gap-x-4 '>
+                        <div className='w-40 h-40 relative flex-shrink-0 rounded-full overflow-hidden'>
+                            <Image className='scale-110' src="/rapidDev.jpeg" objectFit='cover' layout='fill' alt="pict" />
+                        </div>
+                        <div className='font-bold text-slate-300'>
+                            <h4 className='text-orange-400 text-lg'>Name : Rafid Ammar Adinegoro</h4>
+                            <p>Username : RapidFilm</p>
+                            <p>Email : rafid@upnvj.ac.id</p>
+                            <p>Role : Video Graphic | Dokumentasi</p>
+                            <a href="https://www.instagram.com/rafidammar_/" rel='noreferrer' target="_blank" className='mt-2 rounded-md py-2 text-dark px-4 flex items-center bg-orange-400 w-36'>
                                 <BsInstagram size={20} />
                                 <span className='ml-3'>Instagram</span>
                             </a>
